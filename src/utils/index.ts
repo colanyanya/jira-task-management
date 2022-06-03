@@ -1,31 +1,48 @@
 // 0作为真的
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 
-export const isFalsy = (value: unknown) => value === 0 ? false : !value
+export const isFalsy = (value: unknown) => (value === 0 ? false : !value);
 
-export const isVoid = (value: unknown) => value === undefined || value===null || value===''
+export const isVoid = (value: unknown) =>
+  value === undefined || value === null || value === "";
 // 清除空白query
-export const cleanObject = (object: {[key:string]:unknown}) => {
-  const result = {...object}
-  Object.keys(result).forEach(key => {
-    const value = result[key]
+export const cleanObject = (object: { [key: string]: unknown }) => {
+  const result = { ...object };
+  Object.keys(result).forEach((key) => {
+    const value = result[key];
     if (isVoid(value)) {
-      delete result[key]
+      delete result[key];
     }
-  })
-  return result
-}
+  });
+  return result;
+};
 
 // 节流
-export const useDebounce = <V>(value: V, delay: number):V => {
-  const [debounceValue, setDebouncedValue] = useState(value)
+export const useDebounce = <V>(value: V, delay: number): V => {
+  const [debounceValue, setDebouncedValue] = useState(value);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setDebouncedValue(value)
-    }, delay)
-    return () => clearTimeout(timeout)
-  }, [value, delay])
+      setDebouncedValue(value);
+    }, delay);
+    return () => clearTimeout(timeout);
+  }, [value, delay]);
 
-  return debounceValue
+  return debounceValue;
+};
+
+export const useDocumentTitle = (title:string,keepOnUnmount:boolean=true)=>{
+  const oldTitle = document.title
+
+  useEffect(()=>{
+    document.title = title
+  },[title])
+
+  useEffect(()=>{
+    return ()=>{
+      if(!keepOnUnmount){
+        document.title = oldTitle
+      }
+    }
+  },[keepOnUnmount, oldTitle])
 }

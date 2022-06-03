@@ -1,20 +1,18 @@
-import { Table } from "antd";
+import { Table, TableProps } from "antd";
 import dayjs from "dayjs";
 import React from "react";
 import { Project, User } from "./inter";
 
 
-interface ListProps {
-  list: Project[];
+interface ListProps extends TableProps<Project>{
   users: User[];
-  children: React.ReactNode;
 }
 
-export const List = ({ list, users, children }: ListProps) => {
+export const List = ({ users,...props }: ListProps) => {
   return (
     <Table
       pagination={false}
-      rowKey={project=>project.id}
+      rowKey={project=>project?.id}
       columns={[
         {
           title: "名称",
@@ -45,7 +43,7 @@ export const List = ({ list, users, children }: ListProps) => {
           }
         },
       ]}
-      dataSource={list}
+      {...props}
     />
   );
 };
