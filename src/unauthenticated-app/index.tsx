@@ -9,7 +9,7 @@ import right from "assets/right.svg";
 import { useDocumentTitle } from "utils";
 
 export const UnauthenticatedApp = () => {
-  useDocumentTitle('登录注册')
+  // useDocumentTitle('登录注册')
   const [isRegister, setIsRegister] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 

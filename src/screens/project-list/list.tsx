@@ -1,6 +1,8 @@
+import { render } from "@testing-library/react";
 import { Table, TableProps } from "antd";
 import dayjs from "dayjs";
 import React from "react";
+import { Link } from "react-router-dom";
 import { Project, User } from "./inter";
 
 
@@ -16,8 +18,10 @@ export const List = ({ users,...props }: ListProps) => {
       columns={[
         {
           title: "名称",
-          dataIndex: "name",
-          sorter:(a,b)=>a.name.localeCompare(b.name)
+          sorter:(a,b)=>a.name.localeCompare(b.name),
+          render(value,project){
+              return <Link to={String(project.id)}>{project.name}</Link>
+          }
         },{
           title: "部门",
           dataIndex: "organization",

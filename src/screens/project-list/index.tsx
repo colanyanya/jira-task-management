@@ -10,14 +10,12 @@ import { useAsync } from "utils/use-async";
 import { Project } from "./inter";
 import { useProjects } from "utils/project";
 import { useUsers } from "utils/user";
+import { useQueryUrlParam } from "utils/url";
 
 export const ProjectListScreen = () => {
-  useDocumentTitle('项目列表',false)
+  useDocumentTitle("项目列表", true);
   //
-  const [param, setParam] = useState({
-    name: "",
-    personId: "",
-  });
+  const [param,setParam] = useQueryUrlParam(["name", "personId"]);
   const debouncedParam = useDebounce(param, 500);
   const { isLoading, error, data: list } = useProjects(debouncedParam);
   const { data: users } = useUsers();
@@ -36,6 +34,8 @@ export const ProjectListScreen = () => {
     </Container>
   );
 };
+
+ProjectListScreen.whyDidYouRender = true;
 
 const Container = styled.div`
   padding: 3.2rem;
