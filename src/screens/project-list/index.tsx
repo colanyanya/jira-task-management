@@ -11,13 +11,13 @@ import { Project } from "./inter";
 import { useProjects } from "utils/project";
 import { useUsers } from "utils/user";
 import { useQueryUrlParam } from "utils/url";
+import { useProjectSearchParams } from "./util";
 
 export const ProjectListScreen = () => {
   useDocumentTitle("项目列表", true);
   //
-  const [param,setParam] = useQueryUrlParam(["name", "personId"]);
-  const debouncedParam = useDebounce(param, 500);
-  const { isLoading, error, data: list } = useProjects(debouncedParam);
+  const [param, setParam] = useProjectSearchParams();
+  const { isLoading, error, data: list } = useProjects(useDebounce(param, 500));
   const { data: users } = useUsers();
 
   return (
@@ -27,7 +27,6 @@ export const ProjectListScreen = () => {
       {error ? (
         <Typography.Text type={"danger"}>{error.message}</Typography.Text>
       ) : null}
-      {/* */}
       <List dataSource={list || []} users={users || []} loading={isLoading}>
         <h1>111</h1>
       </List>
